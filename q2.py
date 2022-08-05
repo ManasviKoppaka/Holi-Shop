@@ -1,13 +1,41 @@
 #Program Created By Manasvi
 #Introduction
+
 print("_________________________________________")
 print("_________________________________________")
 print("           HOLI SHOP BY MANASVI          ")
 print("_________________________________________")
 print("_________________________________________")
 
+
+def checkout():
+            print("_________________________________________")
+            print("                  Bill                   ")
+            print("_________________________________________")
+            for i in user_list:
+                print(i[0], "--->", i[1][0], " X ", i[2], " : $", i[1][1]*i[2])
+
+            code = 99
+            print("________________________________________")
+            print("In case of return, code:", code)
+            code+=1
+            print("Total Price : $", new_total)
+            print("Tax (10%) : $", new_total*0.1)
+            print("-----------------------------------------")
+            print("Grand Total : $", new_total+new_total*0.1)
+            db = open("return.txt", "a")
+            db.write(str(code))
+            db.write(str(i[1][0]))
+            db.write(str(i[2]))
+            db.write(str(i[1][1]*i[2]))
+            db.write("\n")
+            db.close()
+            print("_________________________________________")
+            print("                Thank You                ")
+            print("_________________________________________")
+            
 #List of items
-items = ["Colors", "Water Balloons", "Water Guns"]
+items = ["Colors", "Water Balloons", "Water Guns", "Checkout", "Return"]
 
 #List of Items with their prices
 colors = [["Red", 4], ["Yellow", 4], ["Orange",4], ["Blue", 3], ["Purple", 1], ["Pink",3]]
@@ -70,7 +98,6 @@ while True:
 
         qty1 = int(input("Enter the quantity: "))
         print("------------------------------------------------")
-
 
         #The ITEM user want to purchase and the cost will be stored in price and product
         price = colors[item1-1][1]
@@ -188,6 +215,25 @@ while True:
             #acumilated total value
         org_total3 = org_total3+tempTotal3
 
+
+    elif choice == 4:
+        checkout()
+
+
+
+
+    elif choice == 5:
+        user_code = int(input("Enter your return code: "))
+        db = open("return.txt", "r")
+        for data in db:
+            c,o = data.split(",")
+            if user_code == c:
+                for i in range(o):
+                    print(o)
+                return_num = int(input("Enter the number of item/s you want to return: "))
+                for i in range(return_num):
+                    return_items = input("Enter the item/s you want to return: ")
+
     elif choice == 0:
         pass
 
@@ -200,33 +246,16 @@ while True:
     while True:
         again = input("Do you want to buy anything else? Yes/No: ")
         print("------------------------------------------------")
-
+        
         if again.lower() == "yes":
             break 
         elif again.lower() == "no":
             print("The total cost for your order would be: $", new_total)
             flag = 0
-            break 
+            checkout()
+            continue 
         else:
             print("Input is invalid. Do you want to try again? Yes/No")
             continue
     if flag == 0:
         break
-
-
-#Total Bill
-print()
-print("_________________________________________")
-print("                  Bill                   ")
-print("_________________________________________")
-for i in user_list:
-    print(i[0], "--->", i[1][0], " X ", i[2], " : $", i[1][1]*i[2])
-
-print("________________________________________")
-print("Total Price : $", new_total)
-print("Tax (10%) : $", new_total*0.1)
-print("-----------------------------------------")
-print("Grand Total : $", new_total+new_total*0.1)
-print("_________________________________________")
-print("                Thank You                ")
-print("_________________________________________")
